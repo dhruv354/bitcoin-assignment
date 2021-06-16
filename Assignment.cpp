@@ -8,16 +8,11 @@ using namespace std;
 
 
 
-// C++ Implementation of Kosaraju's algorithm to print all SCCs
-#include <iostream>
-#include <list>
-#include <stack>
-using namespace std;
-
 
 //topological sort
 
-// Class to represent a graph
+// Class to represent a graph and
+// and to save topological view 
 class Graph {
     // No. of vertices'
     int V;
@@ -144,6 +139,7 @@ void solve(vector<string>tx_id, unordered_map<string, int>&mp){
 
 
 //tokenize the string based on a character to tokenize parent as it contains many tx_ids separated by ';'
+// it will help in processing through the parent ids
 vector<string> tokenize(string s, string del = ";")
 {
     vector<string> output;
@@ -161,8 +157,10 @@ vector<string> tokenize(string s, string del = ";")
 }
 
 
-    int knapsack3(vector<int>topo, vector<int>fee, vector<int>weight, int max_weight, vector<string>tx_id, unordered_map<string, int>mp, vector<vector<string>>parent, vector<string>&p){
+//main function that will ultimately return the maximum value achieved
+int knapsack3(vector<int>topo, vector<int>fee, vector<int>weight, int max_weight, vector<string>tx_id, unordered_map<string, int>mp, vector<vector<string>>parent, vector<string>&p){
         int n = 5213;
+	//using 2 rows as only two rows are needed at a time to save space
         int**dp = new int*[2];
         for(int i = 0;i < 2;i++){
             dp[i] = new int[max_weight+1];
@@ -172,6 +170,7 @@ vector<string> tokenize(string s, string del = ";")
         }
         int flag = 0;
         for(int i = 1;i <= n;i++){
+	    //get current index from topological graph
             int cur_index = topo[i-1];
            cout << "i = " <<  i <<endl;
             for(int j = 1;j <= max_weight;j++){
@@ -250,7 +249,7 @@ int main(){
    vector<vector<string>> output =  parseCSV();
    // cout << output.size() << endl;
 
-
+   
     vector<string>tx_id;
     vector<int>fee;
     vector<int>weight;
@@ -311,7 +310,8 @@ int main(){
             count_++;
             my_output.push_back(p[i]);
         }
-    }
+    } 
+   //writing file into the block.txt
    write(my_output);
 }
 
